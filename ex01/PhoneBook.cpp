@@ -6,7 +6,7 @@
 /*   By: qdo <qdo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 09:38:46 by qdo               #+#    #+#             */
-/*   Updated: 2024/05/21 10:13:19 by qdo              ###   ########.fr       */
+/*   Updated: 2024/05/21 10:27:13 by qdo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,19 @@ std::string rightAlign(std::string str)
     std::string				ret = "";
     int						i;
 
-    if (str.length() >= 10)
+    if (str.length() > 10)
     {
-        i = 10;
+        i = 9;
         iter = str.begin();
         while (--i >= 0)
         {
             ret.push_back(*iter);
             iter++;
         }
+		ret.push_back('.');
         return (ret);
     }
-    if (str.length() < 10)
+    if (str.length() <= 10)
     {
         i = 10 - str.length();
         while (--i >= 0)
@@ -48,7 +49,7 @@ std::string rightAlign(std::string str)
         return str;
     }
     std::cout << "sth wrong ft_convert_string" << std::endl;
-    return "";
+    return ("");
 }
 
 std::string getInput(std::string str)
