@@ -6,7 +6,7 @@
 /*   By: qdo <qdo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 09:38:46 by qdo               #+#    #+#             */
-/*   Updated: 2024/05/21 10:27:13 by qdo              ###   ########.fr       */
+/*   Updated: 2024/05/25 08:42:54 by qdo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,6 @@ PhoneBook::PhoneBook(void)
 PhoneBook::~PhoneBook(void)
 {
 	std::cout << "\nBye Bye" << std::endl;
-}
-
-std::string rightAlign(std::string str)
-{
-    std::string::iterator	iter;
-    std::string				ret = "";
-    int						i;
-
-    if (str.length() > 10)
-    {
-        i = 9;
-        iter = str.begin();
-        while (--i >= 0)
-        {
-            ret.push_back(*iter);
-            iter++;
-        }
-		ret.push_back('.');
-        return (ret);
-    }
-    if (str.length() <= 10)
-    {
-        i = 10 - str.length();
-        while (--i >= 0)
-            str.insert(str.begin(), ' ');
-        return str;
-    }
-    std::cout << "sth wrong ft_convert_string" << std::endl;
-    return ("");
 }
 
 std::string getInput(std::string str)
@@ -100,7 +71,82 @@ bool	PhoneBook::add(void)
 	return (true);
 }
 
-void	PhoneBook::search(void)
+std::string rightAlign(std::string str)
+{
+    std::string::iterator	iter;
+    std::string				ret = "";
+    int						i;
+
+    if (str.length() > 10)
+    {
+        i = 9;
+        iter = str.begin();
+        while (--i >= 0)
+        {
+            ret.push_back(*iter);
+            iter++;
+        }
+		ret.push_back('.');
+        return (ret);
+    }
+    if (str.length() <= 10)
+    {
+        i = 10 - str.length();
+        while (--i >= 0)
+            str.insert(str.begin(), ' ');
+        return str;
+    }
+    std::cout << "sth wrong ft_convert_string" << std::endl;
+    return ("");
+}
+
+void	PhoneBook::printIndex(int i)
+{
+	std::cout <<rightAlign(std::to_string(i + 1));
+	std::cout << "|" << rightAlign(_contacts[i].getFirst());
+	std::cout << "|" << rightAlign(_contacts[i].getLast());
+	std::cout << "|" << rightAlign(_contacts[i].getNick()) << std::endl;
+}
+
+int	PhoneBook::searchIndex(void)
+{
+	std::string				input = "";
+	std::string::iterator	ite;
+
+	std::cout << "Which contact index you wanna check? Or type 'STOP' to get out" << std::endl;
+	while (1)
+	{
+		if (std::getline(std::cin, input))
+		{
+			input = actualString(input);
+			ite = input.begin();
+			if ((input.length() != 1 && input.length() != 4) || *ite < '0'  || *ite >= '8')
+			{
+				if (input.length() == 4 && input == "STOP")
+					return (1);
+				std::cout << "Not valid, try again" << std::endl;
+				std::cout << "Which contact index you wanna check? Or type 'STOP' to get out" << std::endl;
+			}
+			else
+			{
+				if ((_full == 1 && *ite >= '0' && *ite <= '7')
+					|| (_full == 0 && *ite >= '0' && *ite - '0' <= _index - 1))
+					return (this->printIndex(*ite - '0'), 1);
+				else
+				{
+					std::cout << "Not valid, try again" << std::endl;
+					std::cout << "Which contact index you wanna check? Or type 'STOP' to get out" << std::endl;
+				}
+			}
+		}
+		else
+			return (0);
+	}
+	std::cout << "Sth wrong with searchIndex" << std::endl;
+	return (0);
+}
+
+int	PhoneBook::search(void)
 {
 	int	i;
 	int	j;
@@ -108,20 +154,30 @@ void	PhoneBook::search(void)
 	if (_index == 0 && _full == 0)
 	{
 		std::cout << "It's not nice to check search when you haven't added anything yet =.=" << std::endl;
-		return ;
+		return (1);
 	}
 	j = 8;
 	if (_full == 0)
 		j = _index;
 	i = 0;
+
+	std::cout << "-------------------------------------------" << std::endl;
+	std::cout << rightAlign("  Index   ");
+	std::cout << "|" << rightAlign(" FirstName");
+	std::cout << "|" << rightAlign(" LastName ");
+	std::cout << "|" << rightAlign(" NickName ") << std::endl;
+	std::cout << rightAlign("----------");
+	std::cout << "|" << rightAlign("----------");
+	std::cout << "|" << rightAlign("----------");
+	std::cout << "|" << rightAlign("----------") << std::endl;
 	while (i < j)
 	{
-		std::cout << rightAlign(_contacts[i].getFirst());
+		std::cout <<rightAlign(std::to_string(i));
+		std::cout << "|" << rightAlign(_contacts[i].getFirst());
 		std::cout << "|" << rightAlign(_contacts[i].getLast());
-		std::cout << "|" << rightAlign(_contacts[i].getNick());
-		std::cout << "|" << rightAlign(_contacts[i].getPhone());
-		std::cout << "|" << rightAlign(_contacts[i].getSecret()) << std::endl;
+		std::cout << "|" << rightAlign(_contacts[i].getNick()) << std::endl;
 		i++;
 	}
-	return ;
+	std::cout << "-------------------------------------------" << std::endl;
+	return	(this->searchIndex());
 }
