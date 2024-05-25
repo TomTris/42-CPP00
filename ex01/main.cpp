@@ -6,7 +6,7 @@
 /*   By: qdo <qdo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 09:41:59 by qdo               #+#    #+#             */
-/*   Updated: 2024/05/21 10:23:07 by qdo              ###   ########.fr       */
+/*   Updated: 2024/05/25 08:13:30 by qdo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,10 @@ int main(void)
                 std::cout << "Adding new contact successful!" << std::endl;
             }
             else if (input == "SEARCH")
-                book.search();
+            {
+                if (book.search() == 0)
+                    return (1);
+            }
             else if (input == "EXIT")
                 return 0;
             else
