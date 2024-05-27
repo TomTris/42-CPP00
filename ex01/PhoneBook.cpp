@@ -6,7 +6,7 @@
 /*   By: qdo <qdo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 09:38:46 by qdo               #+#    #+#             */
-/*   Updated: 2024/05/25 08:42:54 by qdo              ###   ########.fr       */
+/*   Updated: 2024/05/27 03:09:33 by qdo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int	PhoneBook::searchIndex(void)
 {
 	std::string				input = "";
 	std::string::iterator	ite;
+	int						i;
 
 	std::cout << "Which contact index you wanna check? Or type 'STOP' to get out" << std::endl;
 	while (1)
@@ -131,7 +132,15 @@ int	PhoneBook::searchIndex(void)
 			{
 				if ((_full == 1 && *ite >= '0' && *ite <= '7')
 					|| (_full == 0 && *ite >= '0' && *ite - '0' <= _index - 1))
-					return (this->printIndex(*ite - '0'), 1);
+				{
+					i = *ite - '0';
+					std::cout <<rightAlign(std::to_string(i + 1));
+					std::cout << "|" << rightAlign(_contacts[i].getFirst());
+					std::cout << "|" << rightAlign(_contacts[i].getLast());
+					std::cout << "|" << rightAlign(_contacts[i].getNick());
+					std::cout << "|" << rightAlign(_contacts[i].getPhone());
+					std::cout << "|" << rightAlign(_contacts[i].getSecret()) << std::endl;
+				}
 				else
 				{
 					std::cout << "Not valid, try again" << std::endl;
